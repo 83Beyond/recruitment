@@ -8,6 +8,13 @@ import (
 	"github.com/83Beyond/recruitment/models"
 )
 
+var (
+	ShowList         *widget.List
+	FirstCityHeader  *widget.Select
+	SecondCityHeader *widget.Select
+	SourceHeader     *widget.Select
+)
+
 func newContent() *container.AppTabs {
 	checkCompany := []string{"字节跳动", "美团", "百度", "快手", "小红书"}
 	// 创建多个复选框
@@ -29,23 +36,41 @@ func newContent() *container.AppTabs {
 
 func ShowPositionList() *fyne.Container {
 	positionHeader := newHeader()
-	positionData := newShowList()
-	dataContent := container.NewBorder(positionHeader, nil, nil, nil, positionData)
+	ShowList = newShowList()
+	dataContent := container.NewBorder(positionHeader, nil, nil, nil, ShowList)
 	return dataContent
 }
 
+func newCenterLabel(text string) *widget.Label {
+	label := widget.NewLabel(text)
+	label.Alignment = fyne.TextAlignCenter
+	return label
+}
+
 func newHeader() *fyne.Container {
-	nameHeader := widget.NewLabel("职位名称")
+	nameHeader := newCenterLabel("职位名称")
 	nameHeader.Resize(fyne.NewSize(NameHeaderWidth, NormalHeight))
 	nameHeader.Move(fyne.NewPos(MoveZero, MoveZero))
-	cityHeader := widget.NewLabel("工作地点")
-	cityHeader.Resize(fyne.NewSize(CityHeaderWidth, NormalHeight))
-	cityHeader.Move(fyne.NewPos(NameHeaderWidth, MoveZero))
-	//pubTimeHeader := widget.NewLabel("发布时间")
-	//pubTimeHeader.Resize(fyne.NewSize(ContentWidth/4, 50))
-	//pubTimeHeader.Move(fyne.NewPos(ContentWidth/2+ContentWidth/4, 0))
 
-	header := container.NewWithoutLayout(nameHeader, cityHeader)
+	FirstCityHeader = widget.NewSelect(models.AllCity, firstCityHeaderCallback)
+	FirstCityHeader.Selected = "工作"
+	FirstCityHeader.Alignment = fyne.TextAlignCenter
+	FirstCityHeader.Resize(fyne.NewSize(FirstCityHeaderWidth, NormalHeight))
+	FirstCityHeader.Move(fyne.NewPos(NameHeaderWidth, MoveZero))
+
+	SecondCityHeader = widget.NewSelect(models.AllCity, secondCityHeaderCallback)
+	SecondCityHeader.Selected = "地点"
+	SecondCityHeader.Alignment = fyne.TextAlignCenter
+	SecondCityHeader.Resize(fyne.NewSize(SecondCityHeaderWidth, NormalHeight))
+	SecondCityHeader.Move(fyne.NewPos(NameHeaderWidth+FirstCityHeaderWidth, MoveZero))
+
+	SourceHeader = widget.NewSelect(models.AllSource, sourceHeaderSelectCallback)
+	SourceHeader.Selected = "来源"
+	SourceHeader.Alignment = fyne.TextAlignCenter
+	SourceHeader.Resize(fyne.NewSize(SourceHeaderWidth, NormalHeight))
+	SourceHeader.Move(fyne.NewPos(NameHeaderWidth+FirstCityHeaderWidth+SecondCityHeaderWidth, MoveZero))
+
+	header := container.NewWithoutLayout(nameHeader, FirstCityHeader, SecondCityHeader, SourceHeader)
 	line := canvas.NewLine(Gray)
 
 	return container.NewVBox(header, line)
@@ -54,54 +79,55 @@ func newHeader() *fyne.Container {
 func newShowList() *widget.List {
 	showList := widget.NewList(
 		func() int {
-			return len(models.PositionList)
+			return len(models.ShowPositionList)
 		},
 		func() fyne.CanvasObject {
 			name := widget.NewHyperlink("职位名称", nil)
 			name.Alignment = fyne.TextAlignCenter
 
-			nameBox := container.NewHBox(name)
+			nameBox := container.NewHScroll(name)
 			nameBox.Resize(fyne.NewSize(NameHeaderWidth, NormalHeight))
 			nameBox.Move(fyne.NewPos(MoveZero, MoveZero))
 
-			city := widget.NewLabel("工作地点")
-			cityBox := container.NewHBox(city)
-			cityBox.Resize(fyne.NewSize(CityHeaderWidth, NormalHeight))
+			city := newCenterLabel("工作地点")
+			cityBox := container.NewHScroll(city)
+			cityBox.Resize(fyne.NewSize(FirstCityHeaderWidth+SecondCityHeaderWidth, NormalHeight))
 			cityBox.Move(fyne.NewPos(NameHeaderWidth, MoveZero))
-			//
-			//pubTime := NewCenterLabel("pubTime")
-			//pubTimeBox := container.NewHBox(pubTime)
-			//pubTimeBox.Resize(fyne.NewSize(ContentWidth/4, 50))
-			//pubTimeBox.Move(fyne.NewPos(ContentWidth/2+ContentWidth/4, 0))
+
+			source := newCenterLabel("来源")
+			sourceBox := container.NewHScroll(source)
+			sourceBox.Resize(fyne.NewSize(SourceHeaderWidth, NormalHeight))
+			sourceBox.Move(fyne.NewPos(NameHeaderWidth+FirstCityHeaderWidth+SecondCityHeaderWidth, MoveZero))
 
 			return container.NewWithoutLayout(
 				nameBox,
-				cityBox)
+				cityBox,
+				sourceBox)
 		},
 		func(id widget.ListItemID, item fyne.CanvasObject) {
 			grid := item.(*fyne.Container)
 
-			titleBox := grid.Objects[0].(*fyne.Container)
-			cityBox := grid.Objects[1].(*fyne.Container)
-			//pubTimeBox := grid.Objects[2].(*fyne.Container)
+			titleBox := grid.Objects[0].(*container.Scroll)
+			cityBox := grid.Objects[1].(*container.Scroll)
+			sourceBox := grid.Objects[2].(*container.Scroll)
 
-			link := titleBox.Objects[0].(*widget.Hyperlink)
+			link := titleBox.Content.(*widget.Hyperlink)
 
-			// 截断显示
-			maxLength := 26
-			title := models.PositionList[id].Name
-			fullTile := []rune(models.PositionList[id].Name)
-			if len(fullTile) > maxLength {
-				title = string(fullTile[:maxLength]) + "..."
-			}
+			//// 截断显示
+			//maxLength := 26
+			title := models.ShowPositionList[id].Name
+			//fullTile := []rune(models.ShowPositionList[id].Name)
+			//if len(fullTile) > maxLength {
+			//	title = string(fullTile[:maxLength]) + "..."
+			//}
 			link.SetText(title)
-			link.SetURLFromString(models.PositionList[id].Link)
+			link.SetURLFromString(models.ShowPositionList[id].Link)
 
-			city := cityBox.Objects[0].(*widget.Label)
-			city.SetText(models.PositionList[id].City)
-			//
-			//pubTime := pubTimeBox.Objects[0].(*widget.Label)
-			//pubTime.SetText(models.PositionList[id].PubTime)
+			city := cityBox.Content.(*widget.Label)
+			city.SetText(models.ShowPositionList[id].City)
+
+			source := sourceBox.Content.(*widget.Label)
+			source.SetText(models.ShowPositionList[id].Source)
 		},
 	)
 	return showList

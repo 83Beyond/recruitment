@@ -4,7 +4,7 @@ import "image/color"
 
 const (
 	MoveZero = 0
-	
+
 	NormalSpacing = 5
 
 	NormalHeight = 40
@@ -18,8 +18,10 @@ const (
 	SelectNormalWidth  = 100
 	SelectNormalHeight = 40
 
-	NameHeaderWidth = 320
-	CityHeaderWidth = 100
+	NameHeaderWidth       = 300
+	FirstCityHeaderWidth  = 100
+	SecondCityHeaderWidth = 100
+	SourceHeaderWidth     = 100
 )
 
 var (

@@ -6,12 +6,8 @@ import (
 	"github.com/83Beyond/recruitment/ui"
 )
 
-func init() {
+func main() {
 	models.InitData()
 	conf.InitConfig()
 	ui.InitUi()
-}
-
-func main() {
-
 }
