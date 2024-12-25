@@ -16,7 +16,7 @@ func (s *Scheduler) Schedule() {
 	for _, r := range website.AllWebsites {
 		req := r
 		go func() {
-			for i := 0; i < req.ScrapePage; i++ {
+			for i := req.StartPage; i < req.StartPage+req.ScrapePage; i++ {
 				req.CurrentPage = i
 				ReqQueue <- req
 			}

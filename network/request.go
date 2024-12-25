@@ -9,6 +9,7 @@ type Request struct {
 	Cookies       map[string]string
 	PostData      map[string]any
 	CurrentPage   int
+	StartPage     int
 	ScrapePage    int
 	Timestamp     string
 	PageKey       string

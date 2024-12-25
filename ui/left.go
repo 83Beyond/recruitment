@@ -13,11 +13,11 @@ func newLeft() *fyne.Container {
 	bigTechBtn.Importance = widget.WarningImportance
 	left = append(left, bigTechBtn)
 
-	bankBtn := widget.NewButtonWithIcon("银行", getFinanceIcon(), func() {})
+	bankBtn := widget.NewButtonWithIcon("银行", getBankIcon(), func() {})
 	bankBtn.Importance = widget.MediumImportance
 	left = append(left, bankBtn)
 
-	insuranceBtn := widget.NewButtonWithIcon("保险", getFinanceIcon(), func() {})
+	insuranceBtn := widget.NewButtonWithIcon("保险", getInsuranceIcon(), func() {})
 	insuranceBtn.Importance = widget.MediumImportance
 	left = append(left, insuranceBtn)
 

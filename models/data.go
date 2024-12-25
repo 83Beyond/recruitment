@@ -32,6 +32,8 @@ var (
 	SecondCitySet = utils.NewSet()
 
 	FirstCitySelected string
+
+	ScrapPage = 1
 )
 
 func InitData() {

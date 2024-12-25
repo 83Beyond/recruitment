@@ -7,6 +7,7 @@ import (
 	"strings"
 )
 
+//////////////top组件回调Start
 func searchBtnCallback() {
 	fmt.Println("刷新数据")
 	models.RefreshData()
@@ -28,6 +29,9 @@ func positionEntryCallback(keyword string) {
 	models.Keyword = keyword
 }
 
+//////////////顶部组件回调End
+
+//////////////content组件回调Start
 func sourceHeaderSelectCallback(source string) {
 	if source == "全部" {
 		models.ShowPositionList = models.PositionList
@@ -83,3 +87,20 @@ func secondCityHeaderCallback(second string) {
 
 	ShowList.Refresh()
 }
+
+//////////////content组件回调End
+
+//////////////left组件回调Start
+func bigTechBtnCallback() {
+
+}
+
+func bankBtnCallback() {
+
+}
+
+func insuranceCallback() {
+	
+}
+
+//////////////left组件回调End
