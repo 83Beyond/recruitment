@@ -3,13 +3,197 @@ package website
 import (
 	"github.com/83Beyond/recruitment/models"
 	"github.com/83Beyond/recruitment/network"
-	"github.com/83Beyond/recruitment/website/Finance/ChinaLife"
-	"github.com/83Beyond/recruitment/website/Finance/PICC"
-	"github.com/83Beyond/recruitment/website/Finance/TaiPing"
+	"github.com/83Beyond/recruitment/website/BigTech/ByteDance"
+	"github.com/83Beyond/recruitment/website/BigTech/XHS"
+	"github.com/83Beyond/recruitment/website/Insurance/ChinaLife"
+	"github.com/83Beyond/recruitment/website/Insurance/PAIC"
+	"github.com/83Beyond/recruitment/website/Insurance/PICC"
+	"github.com/83Beyond/recruitment/website/Insurance/TaiPing"
 )
 
 var (
-	AllWebsites = []network.Request{
+	AllBigTechWebsites = []network.Request{
+		network.Request{
+			Name:   "小红书",
+			URL:    "https://job.xiaohongshu.com/websiterecruit/position/pageQueryPosition",
+			Method: "POST",
+			Headers: map[string]string{
+				"accept":             "application/json, text/plain, */*",
+				"accept-language":    "zh-CN,zh;q=0.9,en;q=0.8,pt;q=0.7",
+				"authorization":      "MmY1Mjk3YTIwNDEyNDkzODkwMjMyODJmNWViOTY1N2I=",
+				"cache-control":      "no-cache",
+				"content-type":       "application/json",
+				"origin":             "https://job.xiaohongshu.com",
+				"pragma":             "no-cache",
+				"priority":           "u=1, i",
+				"referer":            "https://job.xiaohongshu.com/campus/position?campusRecruitTypes=term_regular",
+				"sec-ch-ua":          "\"Google Chrome\";v=\"131\", \"Chromium\";v=\"131\", \"Not_A Brand\";v=\"24\"",
+				"sec-ch-ua-mobile":   "?0",
+				"sec-ch-ua-platform": "\"Windows\"",
+				"sec-fetch-dest":     "empty",
+				"sec-fetch-mode":     "cors",
+				"sec-fetch-site":     "same-origin",
+				"user-agent":         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
+				"x-b3-traceid":       "bbd4bf0c564c3c99",
+				"x-s":                "ZgZBZ6TbOiFGsj1KZgcLsjV6OlkBsBALOlv+12dv0js3",
+				"x-t":                "1735040772351",
+			},
+			Cookies: map[string]string{
+				"a1":          "18f6c6c3425ljp4rqk6liras57srhqqaro0cgk92700000105749",
+				"webId":       "992d7e6ecee025943c3a1bb0a4fd7892",
+				"gid":         "yYiKSKSqjKFDyYiKSKSq4lTjJ21VU4FATK138JWF0M2WMS88FxAA0k888y82W4j8S0iWifj4",
+				"abRequestId": "992d7e6ecee025943c3a1bb0a4fd7892",
+				"xsecappid":   "xhs-pc-web",
+				"web_session": "040069b03f8cb25b82c46599ce344bf91e9996",
+				"webBuild":    "4.47.1",
+				"unread":      "{%22ub%22:%22675256bc000000000201ae48%22%2C%22ue%22:%22674c62250000000006015762%22%2C%22uc%22:29}",
+				"acw_tc":      "0a00075317350407141107169e9dd04dc2c38a326dfd83c878c4ea4e7e8642",
+			},
+			PostData: map[string]any{
+				"recruitType":  "campus",
+				"positionName": "",
+				"pageNum":      3,
+				"pageSize":     10,
+				"campusRecruitTypes": []string{
+					"term_regular",
+				},
+			},
+
+			CurrentPage: 1,
+			StartPage:   1,
+			Offset:      1,
+			ScrapePage:  models.ScrapPage,
+			Timestamp:   "",
+
+			PageKey:       "pageNum",
+			TypeSelectKey: "campusRecruitTypes",
+
+			TypeSelectMap: map[string]any{
+				"日常实习": []string{"term_intern"},
+				"校园招聘": []string{"term_regular"},
+			},
+			KeywordKey: "positionName",
+
+			Parse: XHS.Parse,
+		},
+		network.Request{
+			Name:   "字节",
+			URL:    "https://jobs.bytedance.com/api/v1/search/job/posts",
+			Method: "POST",
+			Headers: map[string]string{
+				"Accept":             "application/json, text/plain, */*",
+				"Cache-Control":      "no-cache",
+				"Connection":         "keep-alive",
+				"Content-Type":       "application/json",
+				"Origin":             "https://jobs.bytedance.com",
+				"Portal-Channel":     "campus",
+				"Portal-Platform":    "pc",
+				"Pragma":             "no-cache",
+				"Referer":            "https://jobs.bytedance.com/campus/position/list?keywords=&category=&location=&project=&type=&job_hot_flag=&current=1&limit=10&functionCategory=&tag=",
+				"Sec-Fetch-Dest":     "empty",
+				"Sec-Fetch-Mode":     "cors",
+				"Sec-Fetch-Site":     "same-origin",
+				"User-Agent":         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
+				"accept-language":    "zh-CN",
+				"env":                "undefined",
+				"sec-ch-ua":          "\"Google Chrome\";v=\"131\", \"Chromium\";v=\"131\", \"Not_A Brand\";v=\"24\"",
+				"sec-ch-ua-mobile":   "?0",
+				"sec-ch-ua-platform": "\"Windows\"",
+				"website-path":       "campus",
+				"x-csrf-token":       "nDLg4PNVAf-1XO2VepB4_xeas3U8UcdL053orn_o1hE=",
+			},
+			Cookies: map[string]string{
+				"ttwid":           "1%7C1l2rZn5_biAsPX2SufROy-GBW-R11uiv5cda_MmIEOk%7C1732514548%7C4f22ed858423892b7307037b1c2d85b04d8af0b8f859e8f789e5da3f6b430993",
+				"locale":          "zh-CN",
+				"platform":        "pc",
+				"s_v_web_id":      "verify_m51f1j9z_A8pIncTm_nlwZ_4p4V_9myH_S3nepjR8iDx7",
+				"device-id":       "7451687687775438342",
+				"channel":         "campus",
+				"atsx-csrf-token": "nDLg4PNVAf-1XO2VepB4_xeas3U8UcdL053orn_o1hE%3D",
+			},
+			PostData: map[string]any{
+				"keyword":              "",
+				"limit":                10,
+				"offset":               0,
+				"job_category_id_list": []string{},
+				"tag_id_list":          []string{},
+				"location_code_list":   []string{},
+				"subject_id_list":      []string{},
+				"recruitment_id_list":  []string{},
+				"portal_type":          3,
+				"job_function_id_list": []string{},
+				"storefront_id_list":   []string{},
+				"portal_entrance":      1,
+			},
+
+			CurrentPage: 0,
+			StartPage:   0,
+			Offset:      10,
+			ScrapePage:  models.ScrapPage,
+			Timestamp:   "",
+
+			PageKey:       "offset",
+			TypeSelectKey: "job_category_id_list",
+
+			TypeSelectMap: map[string]any{
+				"日常实习": []string{"201"},
+				"校园招聘": []string{"202", "301"},
+			},
+			KeywordKey: "positionName",
+
+			Parse: ByteDance.Parse,
+		},
+		//network.Request{
+		//	Name:   "快手",
+		//	URL:    "https://zhaopin.kuaishou.cn/recruit/e/api/v1/open/positions/simple",
+		//	Method: "GET",
+		//	Headers: map[string]string{
+		//		"Accept":             "application/json, text/plain, */*",
+		//		"Accept-Language":    "zh-CN,zh;q=0.9,en;q=0.8,pt;q=0.7",
+		//		"Cache-Control":      "no-cache",
+		//		"Connection":         "keep-alive",
+		//		"Pragma":             "no-cache",
+		//		"Referer":            "https://zhaopin.kuaishou.cn/recruit/e/",
+		//		"Sec-Fetch-Dest":     "empty",
+		//		"Sec-Fetch-Mode":     "cors",
+		//		"Sec-Fetch-Site":     "same-origin",
+		//		"User-Agent":         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
+		//		"sec-ch-ua":          "\"Google Chrome\";v=\"131\", \"Chromium\";v=\"131\", \"Not_A Brand\";v=\"24\"",
+		//		"sec-ch-ua-mobile":   "?0",
+		//		"sec-ch-ua-platform": "\"Windows\"",
+		//	},
+		//	Cookies: map[string]string{
+		//		"aliyungf_tc":         "43b816bc91d610f96260313281ef3b31df7a18d702cefc5023bbf3f3e0c9d237",
+		//		"apdid":               "6127e020-f9a6-4057-9d90-2b09d89f00308a76cfb9f6594ed3e99667c8b1b94238:1734981349:1",
+		//		"_did":                "web_478947552DB42B5",
+		//		"accessproxy_session": "6b5f5175-462c-40dd-8b8b-f2e8bb8df696",
+		//	},
+		//	Params: map[string]string{
+		//		"pageNum":            "2",
+		//		"pageSize":           "10",
+		//		"positionNatureCode": "C002",
+		//		"workLocationCode":   "domestic",
+		//	},
+		//
+		//	CurrentPage: 1,
+		//	StartPage:   1,
+		//	Offset:      1,
+		//	ScrapePage:  models.ScrapPage,
+		//	Timestamp:   "",
+		//
+		//	PageKey:       "pageNum",
+		//	TypeSelectKey: "job_category_id_list",
+		//
+		//	TypeSelectMap: map[string]any{
+		//		"日常实习": []string{"201"},
+		//		"校园招聘": []string{"202", "301"},
+		//	},
+		//	KeywordKey: "positionName",
+		//
+		//	Parse: ByteDance.Parse,
+		//},
+	}
+	AllInsuranceWebsites = []network.Request{
 		network.Request{
 			Name:   "国寿",
 			URL:    "https://chinalife.zhiye.com/api/Jobad/GetJobAdPageList",
@@ -56,15 +240,16 @@ var (
 
 			CurrentPage: 0,
 			StartPage:   0,
+			Offset:      1,
 			ScrapePage:  models.ScrapPage,
 			Timestamp:   "",
 
 			PageKey:       "PageIndex",
 			TypeSelectKey: "Category.0",
 
-			TypeSelectMap: map[string]string{
-				"实习招聘": "3",
-				"校园招聘": "2",
+			TypeSelectMap: map[string]any{
+				"日常实习": []string{"3"},
+				"校园招聘": []string{"2"},
 			},
 			KeywordKey: "KeyWords",
 
@@ -116,15 +301,16 @@ var (
 
 			CurrentPage: 0,
 			StartPage:   0,
+			Offset:      1,
 			ScrapePage:  models.ScrapPage,
 			Timestamp:   "",
 
 			PageKey:       "PageIndex",
 			TypeSelectKey: "Category.0",
 
-			TypeSelectMap: map[string]string{
-				"实习招聘": "3",
-				"校园招聘": "2",
+			TypeSelectMap: map[string]any{
+				"日常实习": []string{"3"},
+				"校园招聘": []string{"2"},
 			},
 			KeywordKey: "KeyWords",
 
@@ -174,19 +360,85 @@ var (
 
 			CurrentPage: 0,
 			StartPage:   0,
+			Offset:      1,
 			ScrapePage:  models.ScrapPage,
 			Timestamp:   "",
 
 			PageKey:       "PageIndex",
 			TypeSelectKey: "Category.0",
 
-			TypeSelectMap: map[string]string{
-				"实习招聘": "3",
-				"校园招聘": "2",
+			TypeSelectMap: map[string]any{
+				"日常实习": []string{"3"},
+				"校园招聘": []string{"2"},
 			},
 			KeywordKey: "KeyWords",
 
 			Parse: TaiPing.Parse,
+		},
+		network.Request{
+			Name:   "平安",
+			URL:    "https://campus.pingan.com/zztj-recruit-talent-webserver/rctt/candidate/position/campus/positionSearch/queryPositionPage",
+			Method: "POST",
+			Headers: map[string]string{
+				"Accept":             "application/json",
+				"Accept-Language":    "zh-CN,zh;q=0.9,en;q=0.8,pt;q=0.7",
+				"Cache-Control":      "no-cache",
+				"Connection":         "keep-alive",
+				"Content-Type":       "application/json",
+				"EagleEye-TraceID":   "cff945a9-0059-a740-f0e2-c06661fcf04b",
+				"Origin":             "https://cntp.zhiye.com",
+				"Pragma":             "no-cache",
+				"Referer":            "https://cntp.zhiye.com/intern/jobs",
+				"Sec-Fetch-Dest":     "empty",
+				"Sec-Fetch-Mode":     "cors",
+				"Sec-Fetch-Site":     "same-origin",
+				"User-Agent":         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
+				"X-Requested-With":   "xmlhttprequest",
+				"langType":           "zh_CN",
+				"sec-ch-ua":          "\"Google Chrome\";v=\"131\", \"Chromium\";v=\"131\", \"Not_A Brand\";v=\"24\"",
+				"sec-ch-ua-mobile":   "?0",
+				"sec-ch-ua-platform": "\"Windows\"",
+			},
+			Cookies: map[string]string{
+				"Hm_lvt_2f53c35010dbe120000b9a32bd028225": "1734614195",
+				"HMACCOUNT": "9BC75BC9089E6F24",
+				"Hm_lpvt_2f53c35010dbe120000b9a32bd028225": "1734614201",
+				"Qs_lvt_495348": "1735152399",
+				"Qs_pv_495348":  "1129852416542632600",
+				"pa18_shop_sid": "b24ac686-2f53-472e-bfed-a1848918a5b1",
+				"Hm_lvt_d06f8617511c35d7eaaa23e187cd568e":     "1735152419",
+				"Hm_lpvt_d06f8617511c35d7eaaa23e187cd568e":    "1735152419",
+				"BIGipServerPOOL_PACLOUD_PRDR202409091710510": "2208145694.9261.0000",
+				"__SK_cookieId": "7248953692814501701150506360",
+			},
+			PostData: map[string]any{
+				//"PageNum":            2,
+				"businessUnitId":     "",
+				"pageSize":           10,
+				"positionCategoryId": "",
+				"wecruitId":          "6c1db1bba8c33deab19a733ec785711a",
+				"positionType":       "2",
+				"wecruitPlatform":    true,
+				"workCity":           "",
+				"interviewCity":      "",
+			},
+
+			CurrentPage: 1,
+			StartPage:   1,
+			Offset:      1,
+			ScrapePage:  models.ScrapPage,
+			Timestamp:   "",
+
+			PageKey:       "PageNum",
+			TypeSelectKey: "positionType",
+
+			TypeSelectMap: map[string]any{
+				"日常实习": []string{"2"},
+				"校园招聘": []string{"1"},
+			},
+			KeywordKey: "KeyWords",
+
+			Parse: PAIC.Parse,
 		},
 	}
 )

@@ -10,6 +10,7 @@ type Request struct {
 	PostData      map[string]any
 	CurrentPage   int
 	StartPage     int
+	Offset        int
 	ScrapePage    int
 	Timestamp     string
 	PageKey       string
@@ -17,6 +18,6 @@ type Request struct {
 	CitySelectKey string
 	TypeSelectKey string
 	KeywordKey    string
-	TypeSelectMap map[string]string
+	TypeSelectMap map[string]any
 	Parse         func(response Response)
 }

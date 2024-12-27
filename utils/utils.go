@@ -24,6 +24,9 @@ func ProcessCity(city string) (string, string) {
 	} else if strings.Index(city, "市") != -1 {
 		first = strings.Replace(city, "市", "", 1)
 		second = strings.Replace(city, "市", "", 1)
+	} else {
+		first = city + "市"
+		second = city + "市"
 	}
 	return first, second
 }

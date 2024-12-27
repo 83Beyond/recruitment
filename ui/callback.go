@@ -2,12 +2,13 @@ package ui
 
 import (
 	"fmt"
+	"fyne.io/fyne/v2/widget"
 	"github.com/83Beyond/recruitment/models"
 	"github.com/83Beyond/recruitment/spider"
 	"strings"
 )
 
-//////////////top组件回调Start
+// ////////////top组件回调Start
 func searchBtnCallback() {
 	fmt.Println("刷新数据")
 	models.RefreshData()
@@ -31,7 +32,7 @@ func positionEntryCallback(keyword string) {
 
 //////////////顶部组件回调End
 
-//////////////content组件回调Start
+// ////////////content组件回调Start
 func sourceHeaderSelectCallback(source string) {
 	if source == "全部" {
 		models.ShowPositionList = models.PositionList
@@ -90,17 +91,29 @@ func secondCityHeaderCallback(second string) {
 
 //////////////content组件回调End
 
-//////////////left组件回调Start
-func bigTechBtnCallback() {
-
+// ////////////left组件回调Start
+func bigTechBtnCallback(bigTechBtn, bankBtn, insuranceBtn *widget.Button) func() {
+	return func() {
+		bigTechBtn.Importance = widget.WarningImportance
+		bankBtn.Importance = widget.MediumImportance
+		insuranceBtn.Importance = widget.MediumImportance
+	}
 }
 
-func bankBtnCallback() {
-
+func bankBtnCallback(bigTechBtn, bankBtn, insuranceBtn *widget.Button) func() {
+	return func() {
+		bigTechBtn.Importance = widget.MediumImportance
+		bankBtn.Importance = widget.WarningImportance
+		insuranceBtn.Importance = widget.MediumImportance
+	}
 }
 
-func insuranceCallback() {
-	
+func insuranceCallback(bigTechBtn, bankBtn, insuranceBtn *widget.Button) func() {
+	return func() {
+		bigTechBtn.Importance = widget.MediumImportance
+		bankBtn.Importance = widget.MediumImportance
+		insuranceBtn.Importance = widget.WarningImportance
+	}
 }
 
 //////////////left组件回调End

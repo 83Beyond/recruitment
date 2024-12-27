@@ -15,7 +15,6 @@ import (
 	"net/http"
 	"net/url"
 	"strconv"
-	"strings"
 	"time"
 )
 
@@ -58,11 +57,7 @@ func StartRequest(r network.Request) network.Response {
 
 	} else {
 		if models.SelectedType != "" {
-			if strings.Index(r.TypeSelectKey, ".") != -1 {
-				k := strings.Split(r.TypeSelectKey, ".")
-				index, _ := strconv.Atoi(k[1])
-				r.PostData[k[0]].([]string)[index] = models.SelectedType
-			}
+			r.PostData[r.TypeSelectKey] = r.TypeSelectMap[models.SelectedType]
 		}
 		if models.Keyword != "" {
 			r.PostData[r.KeywordKey] = models.Keyword
@@ -73,6 +68,7 @@ func StartRequest(r network.Request) network.Response {
 		req, err = http.NewRequest(r.Method, r.URL, bytes.NewBuffer(jsonData))
 		req.Header.Set("Content-Type", "application/json")
 	}
+	fmt.Println(r.PostData)
 
 	if r.Headers != nil {
 		for k, v := range r.Headers {

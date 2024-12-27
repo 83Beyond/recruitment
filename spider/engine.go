@@ -13,10 +13,11 @@ var (
 type Scheduler struct{}
 
 func (s *Scheduler) Schedule() {
-	for _, r := range website.AllWebsites {
+	for _, r := range website.AllBigTechWebsites {
 		req := r
+		offset := r.Offset
 		go func() {
-			for i := req.StartPage; i < req.StartPage+req.ScrapePage; i++ {
+			for i := req.StartPage; i < req.StartPage+req.ScrapePage; i += offset {
 				req.CurrentPage = i
 				ReqQueue <- req
 			}
